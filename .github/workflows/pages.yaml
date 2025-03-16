@@ -42,9 +42,9 @@ jobs :
         name: test-results
         path : reports
 
-    -name: Display to Github Pages
-    uses: peaceiris/actions-gh-pages@v3
-    with:
+    - name: Display to Github Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./reports
 
