@@ -33,7 +33,6 @@ jobs :
     - name: Install playwright
       run: pip install playwright
       
-
     - name: Run tests
       run: pytest --html=reports/index.html
       
@@ -41,7 +40,13 @@ jobs :
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path : reports/index.html
+        path : reports
+
+    -name: Display to Github Pages
+    uses: peaceiris/actions-gh-pages@v3
+    with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./reports
 
   deploy:
     runs-on: ubuntu-latest
