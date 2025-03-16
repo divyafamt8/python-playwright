@@ -31,7 +31,7 @@ jobs :
       run: pip install -r requirements.txt
 
     - name: Install playwright
-      run: pip install playwright
+      run: python -m playwright install
       
     - name: Run tests
       run: pytest --html=reports/index.html
