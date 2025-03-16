@@ -1,60 +1,41 @@
-name : Python playwright tests
-on : 
-  push :
-    branches : [main]
-  
-  pull_request :
-    branches : [main]
+name: Python Playwright Tests
 
-jobs :
-  build :  
-    runs-on : ubuntu-latest
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-    steps :
-    - name : This is a buid job
-      run : echo "This is a build job"
+jobs:
+  test:
+    runs-on: ubuntu-latest
 
-  tests :
-    needs : build  
-    runs-on : ubuntu-latest
-
-    steps :
-    - name : This is a test job
-      run : echo "This is a test job"
-
-    - name: Set up Python 3.13
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13' 
-
+        python-version: '3.12' 
+    
     - name: Install dependencies
       run: pip install -r requirements.txt
-
-    - name: Install playwright
+    
+    - name: Install Playwright
       run: python -m playwright install
-      
+
     - name: Run tests
       run: pytest --html=reports/index.html
-      
+    
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: test-results
-        path : reports
-
-    - name: Display to Github Pages
+        path: reports
+    
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./reports
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: tests
-
-    steps:
-    - name: This is a deploy job
-      run: echo "This is a deploy job"
-
-
-    
+        publish_dir: reports
